@@ -1,0 +1,69 @@
+docker build -t foodsystem . //build
+
+docker run -it foodsystem
+
+Expose a port (if your app is a web server, e.g. running on port 5000 inside the container):
+docker run -p 5000:5000 foodsystem
+
+# Build Docker image (give a meaningful name like myapp)
+docker build -t myapp:1.0 .
+This creates an image from your Maven project.
+
+✅ Step 2: Run the Docker container
+If the project produces a .jar or .war and uses Tomcat:
+
+bash
+Copy code
+docker run -d -p 8080:8080 --name myapp-container myapp:1.0
+Now your application will be accessible on http://localhost:8080.
+
+✅ Step 3: Answering the Questions (Lab Style)
+Q1: You want to pull the official nginx:latest image from Docker Hub. Which command do you use?
+👉 docker pull nginx:latest
+
+Q2: You want to run the official nginx:latest agent/nginx Docker Hub image, exposing port 8090 on the host. What command will you use?
+👉 docker run -d -p 8090:80 nginx:latest
+
+Q3: How do you check which host port is mapped to container port 8080?
+👉 docker ps
+(or)
+👉 docker port <container_id> 8080
+
+Q4: One of your running containers is consuming high CPU and you want to stop it. How do you stop a running container using its name?
+👉 docker stop <container_name>
+
+Q5: You want to run a new tomcat container and expose its internal port 5000 on host port 8080. Which command should you use?
+👉 docker run -d -p 8080:5000 tomcat:latest
+
+Q6: You have pulled the official python image from Docker Hub, run it in a container and list containers that are running.
+
+bash
+Copy code
+docker pull python:latest
+docker run -it python:latest
+docker ps
+Q7: Verify whether web-app is accessible on port 8080. If getting conflict, how do you solve?
+
+Check if port 8080 is busy: docker ps
+
+Stop the conflicting container: docker stop <container_id>
+
+Or run on different port:
+👉 docker run -d -p 8090:8080 myapp:1.0
+
+Q8: If the application is giving out an error on port 8080, update the configuration and rebuild the Docker file and run on 8090 port.
+
+bash
+Copy code
+# Update Dockerfile or app config to 8090
+docker build -t myapp:2.0 .
+docker run -d -p 8090:8090 myapp:2.0
+Q9: How can you stop a running container and start it?
+👉 docker stop <container_id>
+👉 docker start <container_id>
+
+Q10: How will you check container status?
+👉 docker ps (for running containers)
+👉 docker ps -a (for all containers, stopped + running)
+
+
