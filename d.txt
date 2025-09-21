@@ -1,0 +1,60 @@
+Pull the official nginx:latest image from Docker Hub
+docker pull nginx:latest
+
+
+Pulls the latest nginx image from Docker Hub to your local system.
+
+2. Run the nginx:latest image, exposing host port 8090
+docker run -d -p 8090:80 --name mynginx nginx:latest
+
+
+-d = detached (runs in background), -p 8090:80 maps host port 8090 to container port 80.
+
+3. Check which host port is mapped to container port 8080
+docker ps          # Check running containers and port mappings
+docker port <container_name_or_id> 8080
+
+4. Stop a running container consuming high CPU by name
+docker stop <container_name>
+
+5. Run a new Tomcat container, expose internal port 5000 on host port 8080
+docker run -d -p 8080:5000 --name mytomcat tomcat:latest
+
+6. Pull official Python image, run, and list running containers
+docker pull python:latest
+docker run -it --name mypython python:latest /bin/bash
+docker ps
+
+
+-it = interactive terminal. docker ps lists running containers.
+
+7. Verify if web-app is accessible on port 8080; resolve conflict
+
+Check if port 8080 is free:
+
+docker ps
+
+
+If conflict exists:
+
+docker stop <conflicting_container>
+# Or run on different host port
+docker run -d -p 8090:8080 myapp:1.0
+
+8. If app errors on port 8080, rebuild and run on 8090
+# Update Dockerfile or app config to use port 8090
+docker build -t myapp:2.0 .
+docker run -d -p 8090:8090 myapp:2.0
+
+9. Stop and start a running container
+docker stop <container_name_or_id>
+docker start <container_name_or_id>
+
+10. Check container status
+docker ps           # Only running containers
+docker ps -a        # All containers, including stopped/exited
+
+
+💡 Exam tip: Always remember the pattern:
+
+Pull → Run → Check Ports → Stop/Start → Rebuild → Re-run
