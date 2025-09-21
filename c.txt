@@ -1,0 +1,75 @@
+1. Check the docker version and list all the images existing
+docker --version          # Check Docker version
+docker images             # List all existing images
+
+✅ 2. Pull the hello-world image and run it
+docker pull hello-world
+docker run hello-world
+
+✅ 3. Pull the ubuntu image and work in interactive mode
+docker pull ubuntu
+docker run -it ubuntu /bin/bash
+
+
+(-it = interactive terminal)
+
+✅ 4. Write a Dockerfile for Maven-based CampusMgmtSystem
+
+👉 Example Dockerfile (for a Spring Boot / Maven project JAR):
+
+# Stage 1: Build the Maven project
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the application
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/target/CampusMgmtSystem-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+👉 Build the image:
+
+docker build -t csimage:1.0 .
+
+
+👉 Run the container:
+
+docker run -d -p 8080:8080 csimage:1.0
+
+✅ 5. Pull an official image from Docker Hub, run it, and list containers
+
+Example: Nginx
+
+docker pull nginx:latest
+docker run -d -p 8080:80 nginx:latest
+docker ps   # List running containers
+
+✅ 6. How can you start and stop a running container
+docker stop <container_id_or_name>
+docker start <container_id_or_name>
+
+✅ 7. Check a list of all containers (including stopped ones)
+docker ps -a
+
+✅ 8. How can you stop a running container
+docker stop <container_id_or_name>
+
+✅ 9. Push your custom Docker image to Docker Hub (public)
+# 1. Tag the image with your Docker Hub username
+docker tag csimage:1.0 yourdockerhubusername/csimage:1.0
+
+# 2. Login to Docker Hub
+docker login
+
+# 3. Push the image
+docker push yourdockerhubusername/csimage:1.0
+
+✅ 10. Check whether a container exited cleanly or crashed
+docker ps -a                  # See container status (Exited 0 = clean exit, non-zero = crash)
+docker logs <container_id>    # Check container logs for crash reasons
+docker inspect <container_id> # More detailed info about exit code
