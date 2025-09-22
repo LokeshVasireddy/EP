@@ -1,0 +1,71 @@
+1. Creating patches
+a) git diff → patch from unstaged changes
+git diff > my-changes.patch
+
+
+Creates a patch file with unstaged changes in your working directory.
+
+b) git diff --staged → patch from staged changes
+git diff --staged > staged-changes.patch
+
+
+Includes only staged changes in the patch.
+
+c) git format-patch → patch from commits
+git format-patch -1 <commit-hash>
+
+
+Creates a patch file for a specific commit.
+
+-1 → last 1 commit; -3 → last 3 commits.
+
+Produces a patch ready to apply with git am.
+
+2. Applying patches
+a) git apply → apply patch to working directory
+git apply my-changes.patch
+
+
+Applies changes without committing.
+
+Optional flags:
+
+--check → check if patch can be applied without errors.
+
+--stat → show what will be changed.
+
+b) git am → apply patch as a commit
+git am my-commit.patch
+
+
+Applies a patch and creates a commit automatically.
+
+Used for patches created with git format-patch.
+
+c) git apply --reverse → revert a patch
+git apply --reverse my-changes.patch
+
+
+Reverts the changes in the patch if you applied it by mistake.
+
+3. Inspecting patches
+git apply --stat my-changes.patch
+
+
+Shows which files will be changed and how many lines.
+
+git apply --check my-changes.patch
+
+
+Checks if the patch can be applied cleanly.
+
+git log -p
+
+
+Shows patches of existing commits in your repo.
+
+4. Exporting multiple commits as patches
+git format-patch origin/main..HEAD
+
+
+Creates patch files for all commits between origin/main and your current branch.
