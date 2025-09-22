@@ -38,3 +38,62 @@
     </build>
 
 </project>
+
+
+
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>food-system</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>Food System</name>
+
+    <!-- Project URL (metadata only, not deployment control) -->
+    <url>http://localhost:8080/FoodSystem</url>
+
+    <build>
+        <!-- Final WAR name -->
+        <finalName>FoodSystem</finalName>
+
+        <plugins>
+            <!-- Tomcat plugin for running/deploying -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2.8</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>tomcat</server>
+                    <path>/FoodSystem</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- MySQL Connector/J for database connectivity -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.30</version>
+        </dependency>
+
+        <!-- Servlet API (provided by Tomcat at runtime) -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
+
